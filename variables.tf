@@ -1,6 +1,11 @@
 variable "eks_subnets" {
   type        = list(string)
-  description = "ID of VPC for EKS cluster"
+  description = "List of subnet IDs for Fargate usage."
+}
+
+variable "fargate_subnets" {
+  type        = list(string)
+  description = "List of private subnet IDs for Fargate usage."
 }
 
 variable "cluster_name" {
