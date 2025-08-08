@@ -1,0 +1,81 @@
+#apiVersion: v1
+#kind: Namespace
+#metadata:
+#  name: web
+#---
+#apiVersion: apps/v1
+#kind: Deployment
+#metadata:
+#  name: hello-world
+#  namespace: web
+#spec:
+#  replicas: 2
+#  selector:
+#    matchLabels:
+#      app: hello-world
+#  template:
+#    metadata:
+#      labels:
+#        app: hello-world
+#    spec:
+#      containers:
+#        - name: hello-world
+#          image: nginxdemos/hello:latest
+#          ports:
+#            - containerPort: 80
+#---
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: hello-world
+#  namespace: web
+#spec:
+#  selector:
+#    app: hello-world
+#  ports:
+#    - port: 80
+#      targetPort: 80
+#  type: LoadBalancer
+#
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: web
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world
+  namespace: web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+        - name: hello-world
+          image: hashicorp/http-echo
+          args:
+            - "-text=Hello from EKS!"
+          ports:
+            - containerPort: 5678
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-world
+  namespace: web
+spec:
+  selector:
+    app: hello-world
+  ports:
+    - port: 80
+      targetPort: 5678
+  type: LoadBalancer
+
